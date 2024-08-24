@@ -7,13 +7,19 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
+import { IProduct } from "../interfaces";
 
-const ProductCard = () => {
+const ProductCard = (Product: IProduct) => {
+  const { id, attributes } = Product;
+  const { title, price, description, thumbnail } = attributes;
+
   return (
     <Card bg={"none"} border={"1px solid white"}>
       <CardBody textAlign={"center"}>
         <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          src={`${import.meta.env.VITE_SERVER_URL}${
+            thumbnail.data.attributes.url
+          }`}
           alt="Green double couch with wooden legs"
           borderRadius="50%"
           width={"200px"}
@@ -21,16 +27,16 @@ const ProductCard = () => {
           mx={"auto"}
         />
         <Stack mt="6" spacing="3">
-          <Heading size="md">Living room Sofa</Heading>
-          <Text>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces, earthy toned spaces and for people who love a chic design
-            with a sprinkle of vintage design.
-          </Text>
+          <Heading size="md">{title}</Heading>
+          <Text>{description}</Text>
           <Text color="blue.600" fontSize="2xl">
-            $450
+            ${price}
           </Text>
-          <Button variant="solid" colorScheme="blue">
+          <Button
+            variant="solid"
+            colorScheme="blue"
+            onClick={() => console.log(id)}
+          >
             More Details
           </Button>
         </Stack>
