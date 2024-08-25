@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@tanstack/react-query": "^5.52.1",
     "axios": "^1.7.5",
+    "e-commerse": "file:",
     "framer-motion": "^11.3.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
