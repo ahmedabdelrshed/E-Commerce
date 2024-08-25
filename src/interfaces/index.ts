@@ -1,6 +1,6 @@
 export interface IProduct {
 
-    id: number;
+    id: number
     attributes: {
         title: string;
         price: number;
