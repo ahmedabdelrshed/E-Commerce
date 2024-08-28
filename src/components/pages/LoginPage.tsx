@@ -12,13 +12,27 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "../../validation";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-
+  interface Inputs {
+    identifier: string;
+    password: string;
+  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: yupResolver(loginSchema),
+  });
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <Flex
       minH={"80vh"}
@@ -38,16 +52,23 @@ export default function LoginPage() {
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input isInvalid type="email" />
+              <Input type="string" {...register("identifier")} />
+              <FormHelperText color={"red.400"}>
+                {errors.identifier?.message}
+              </FormHelperText>
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input isInvalid type={showPassword ? "text" : "password"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -59,6 +80,9 @@ export default function LoginPage() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <FormHelperText color={"red.400"}>
+                {errors.password?.message}
+              </FormHelperText>
             </FormControl>
             <Stack spacing={5}>
               <Stack
