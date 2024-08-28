@@ -13,26 +13,42 @@ import {
   InputRightElement,
   Text,
   FormHelperText,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validation";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginData } from "../../interfaces";
+import { login } from "../../app/features/loginSlice";
+import { AppDispatch, RootState } from "../../app/store";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  interface Inputs {
-    identifier: string;
-    password: string;
-  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<LoginData>({
     resolver: yupResolver(loginSchema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { isLoading } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch<AppDispatch>();
+  const toast = useToast();
+  const onSubmit: SubmitHandler<LoginData> = async (data: LoginData) => {
+    const resultAction = await dispatch(login(data));
+    if (login.rejected.match(resultAction)) {
+      toast({
+        position: "top",
+        title: "Username or Password incorrect",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Flex
       minH={"80vh"}
@@ -101,6 +117,7 @@ export default function LoginPage() {
                   bg: "blue.500",
                 }}
                 type="submit"
+                isLoading={isLoading}
               >
                 Log in
               </Button>

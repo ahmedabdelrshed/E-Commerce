@@ -16,3 +16,8 @@ export interface IProduct {
 
 
 }
+
+export interface LoginData {
+    identifier: string;
+    password: string;
+}
