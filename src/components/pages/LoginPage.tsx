@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validation";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,7 @@ import { login } from "../../app/features/loginSlice";
 import { AppDispatch, RootState } from "../../app/store";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -47,6 +47,19 @@ export default function LoginPage() {
         duration: 3000,
         isClosable: true,
       });
+    }
+    if (login.fulfilled.match(resultAction)) {
+      toast({
+        position: "top",
+        title: "Login Successful",
+        description: "Redirecting to Homepage",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 2500);
     }
   };
   return (

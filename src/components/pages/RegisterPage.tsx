@@ -13,29 +13,60 @@ import {
   useColorModeValue,
   Link,
   FormHelperText,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../validation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { registerApi } from "../../app/features/registerSlice";
+import { RegisterData } from "../../interfaces";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  interface Inputs {
-    username: string;
-    email: string;
-    password: string;
-  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<RegisterData>({
     resolver: yupResolver(registerSchema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { isLoading } = useSelector((state: RootState) => state.register);
+  const dispatch = useDispatch<AppDispatch>();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<RegisterData> = async (data) => {
+    console.log(data);
+    const resultAction = await dispatch(registerApi(data));
+    if (registerApi.rejected.match(resultAction)) {
+      toast({
+        position: "top",
+        title: "Username or Email already Exists ",
+        description: "Please enter another Email or Username",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+    if (registerApi.fulfilled.match(resultAction)) {
+      toast({
+        position: "top",
+        title: "Registration Successful",
+        description: "You have successfully registered. You can login now",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+    }
+  };
   return (
     <Flex
       minH={"90vh"}
@@ -104,6 +135,7 @@ export default function RegisterPage() {
                   bg: "blue.500",
                 }}
                 type="submit"
+                isLoading={isLoading}
               >
                 Sign up
               </Button>
