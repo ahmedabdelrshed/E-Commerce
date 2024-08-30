@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance from "../../conf/axios.config";
 import { LoginData } from "../../interfaces";
+import CookieService from "../../services/CookieService";
 
 
 interface ResponseData {
@@ -54,6 +55,9 @@ const loginSlice = createSlice({
                 state.isLoading = false;
                 state.data.user = action.payload.user;
                 state.data.jwt = action.payload.jwt;
+                const date = new Date()
+                date.setTime(date.getTime() + 1000 * 60 * 60 * 24)
+                CookieService.set('jwt', action.payload.jwt, { path: "/", expires: date })
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
