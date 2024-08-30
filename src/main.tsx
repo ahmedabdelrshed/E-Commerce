@@ -19,6 +19,5 @@ createRoot(document.getElementById("root")!).render(
         </ChakraProvider>
       </QueryClientProvider>
     </Provider>
-    ,
   </StrictMode>
 );
