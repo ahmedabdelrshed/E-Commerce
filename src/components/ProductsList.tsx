@@ -7,7 +7,7 @@ import { IProduct } from "../interfaces";
 const ProductsList = () => {
   const { data, isLoading } = useQueryHook({
     queryKey: ["products"],
-    url: "/api/products?populate=thumbnail,categories&sort=createdAt:DESC",
+    url: "/api/products?populate=thumbnail&sort=createdAt:DESC",
   });
 
   if (isLoading)

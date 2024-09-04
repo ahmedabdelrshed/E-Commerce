@@ -7,7 +7,7 @@ interface IAuth {
 const ProtectedLogin = ({ element }: IAuth) => {
   const token = CookieService.get("jwt");
   if (token) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
   return element;
 };

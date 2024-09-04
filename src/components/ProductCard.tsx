@@ -8,6 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IProduct } from "../interfaces";
+import { NavLink as LinkRouting } from "react-router-dom";
 
 const ProductCard = (Product: IProduct) => {
   const { id, attributes } = Product;
@@ -33,9 +34,10 @@ const ProductCard = (Product: IProduct) => {
             ${price}
           </Text>
           <Button
+          as={LinkRouting}
+          to={`/product/${id}`}
             variant="solid"
             colorScheme="blue"
-            onClick={() => console.log(id)}
           >
             More Details
           </Button>

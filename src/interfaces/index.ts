@@ -1,10 +1,16 @@
 export interface IProduct {
-
     id: number
     attributes: {
         title: string;
         price: number;
         description: string;
+        category?: {
+            data: {
+                attributes: {
+                    title: string
+                }
+            }
+        }
         thumbnail: {
             data: {
                 attributes: {
@@ -13,8 +19,6 @@ export interface IProduct {
             }
         }
     }
-
-
 }
 
 export interface LoginData {
@@ -26,4 +30,4 @@ export interface RegisterData {
     username: string;
     email: string;
     password: string;
-  }
+}

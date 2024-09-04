@@ -11,6 +11,7 @@ import RegisterPage from "../components/pages/RegisterPage";
 import ErrorHandler from "../errors/ErrorPage";
 import AuthRoute from "../protectedRoutes/AuthRoute";
 import ProtectedLogin from "../protectedRoutes/ProtectedLogin";
+import ProductPage from "../components/pages/ProductDetailsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,10 @@ const router = createBrowserRouter(
         <Route
           path="dashboard"
           element={<AuthRoute element={<h2>Dashboard</h2>} />}
+        />
+        <Route
+          path="product/:id"
+          element={<AuthRoute element={<ProductPage/>} />}
         />
       </Route>
       <Route
