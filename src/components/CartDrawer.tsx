@@ -29,6 +29,7 @@ const CartDrawer = () => {
             {cartProducts.map((product) => (
               <CartItem
                 key={product.id}
+                id={product.id}
                 title={product.attributes.title}
                 price={product.attributes.price}
                 quantity={product.quantity}
