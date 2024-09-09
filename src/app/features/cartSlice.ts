@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IProduct } from "../../interfaces";
+import { addProductToCart } from "../../utils";
 
+export interface IProductCart extends IProduct {
+    quantity: number;
+}
 interface ICart {
-    cartProducts: IProduct[]
+    cartProducts: IProductCart[]
 }
 
 const initialState: ICart = {
@@ -14,7 +18,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            state.cartProducts = [...state.cartProducts, action.payload]
+            state.cartProducts = addProductToCart(action.payload, state.cartProducts)
         }
     }
 })
