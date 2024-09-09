@@ -11,10 +11,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { onCloseCartDrawer } from "../app/features/globalSlice";
+import CartItem from "./CartITem";
 const CartDrawer = () => {
-  const {isOpenCartDrawer} = useSelector((state:RootState) => state.global)
-  const dispatch = useDispatch()
-  const onClose= ()=> dispatch(onCloseCartDrawer())
+  const { isOpenCartDrawer } = useSelector((state: RootState) => state.global);
+  const dispatch = useDispatch();
+  const onClose = () => dispatch(onCloseCartDrawer());
+  const { cartProducts } = useSelector((state: RootState) => state.cart);
   return (
     <div>
       <Drawer isOpen={isOpenCartDrawer} placement="right" onClose={onClose}>
@@ -23,7 +25,17 @@ const CartDrawer = () => {
           <DrawerCloseButton />
           <DrawerHeader>Your Shopping Cart 🛒</DrawerHeader>
 
-          <DrawerBody></DrawerBody>
+          <DrawerBody>
+            {cartProducts.map((product) => (
+              <CartItem
+                key={product.id}
+                title={product.attributes.title}
+                price={product.attributes.price}
+                quantity={product.quantity}
+                image={product.attributes.thumbnail.data.attributes.url}
+              />
+            ))}
+          </DrawerBody>
 
           <DrawerFooter>
             <Button

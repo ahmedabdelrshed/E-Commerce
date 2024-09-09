@@ -56,7 +56,7 @@ const ProductPage = () => {
             src={`${import.meta.env.VITE_SERVER_URL}${
               thumbnail.data.attributes.url
             }`}
-            alt="Green double couch with wooden legs"
+            alt={title}
             borderRadius="50%"
             width={"200px"}
             height={"200px"}
