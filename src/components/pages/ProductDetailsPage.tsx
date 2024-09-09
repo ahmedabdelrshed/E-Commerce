@@ -6,6 +6,7 @@ import {
   Button,
   Image,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { IProduct } from "../../interfaces";
 import useQueryHook from "../../hooks/useQueryHook";
@@ -17,12 +18,17 @@ import { addToCart } from "../../app/features/cartSlice";
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { data, isLoading } = useQueryHook({
     queryKey: ["product"],
     url: `api/products/${id}?populate=thumbnail,category&sort=createdAt:DESC/`,
   });
-  if (isLoading) return <ProductSkelton />;
+  if (isLoading)
+    return (
+      <Box maxW={"sm"} mx={"auto"} my={20}>
+        <ProductSkelton />
+      </Box>
+    );
   const Product: IProduct = data?.data;
   const { attributes } = Product;
   const { title, price, description, thumbnail, category } = attributes;
@@ -41,7 +47,7 @@ const ProductPage = () => {
       <Card
         bg={"none"}
         border={"1px solid white"}
-        w={"350px"}
+        maxW={"sm"}
         mx={"auto"}
         mt={4}
       >
@@ -65,7 +71,11 @@ const ProductPage = () => {
             <Text color="blue.600" fontSize="2xl">
               ${price}
             </Text>
-            <Button variant="solid" colorScheme="blue" onClick={handleAddToCart}>
+            <Button
+              variant="solid"
+              colorScheme="blue"
+              onClick={handleAddToCart}
+            >
               Add To Cart
             </Button>
           </Stack>

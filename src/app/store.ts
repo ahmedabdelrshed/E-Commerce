@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import loginSlice from './features/loginSlice'
 import registerSlice from './features/registerSlice'
 import cartSlice from './features/cartSlice'
+import globalSlice from './features/globalSlice'
 
 export const store = configureStore({
     reducer: {
         login: loginSlice,
         register: registerSlice,
-        cart: cartSlice
+        cart: cartSlice,
+        global: globalSlice
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
