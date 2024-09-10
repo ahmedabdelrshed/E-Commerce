@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import ProductsList from "../ProductsList";
+import ProductsList from "../components/ProductsList";
 
 const HomePage = () => {
   return (

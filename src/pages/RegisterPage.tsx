@@ -20,11 +20,11 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../../validation";
+import { registerSchema } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store";
-import { registerApi } from "../../app/features/registerSlice";
-import { RegisterData } from "../../interfaces";
+import { AppDispatch, RootState } from "../app/store";
+import { registerApi } from "../app/features/registerSlice";
+import { RegisterData } from "../interfaces";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);

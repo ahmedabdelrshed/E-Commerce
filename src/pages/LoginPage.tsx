@@ -19,11 +19,11 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../validation";
+import { loginSchema } from "../validation";
 import { useDispatch, useSelector } from "react-redux";
-import { LoginData } from "../../interfaces";
-import { login } from "../../app/features/loginSlice";
-import { AppDispatch, RootState } from "../../app/store";
+import { LoginData } from "../interfaces";
+import { login } from "../app/features/loginSlice";
+import { AppDispatch, RootState } from "../app/store";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();

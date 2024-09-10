@@ -8,13 +8,13 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import { IProduct } from "../../interfaces";
-import useQueryHook from "../../hooks/useQueryHook";
+import { IProduct } from "../interfaces";
+import useQueryHook from "../hooks/useQueryHook";
 import { useNavigate, useParams } from "react-router-dom";
-import ProductSkelton from "../ProductSkelton";
+import ProductSkelton from "../components/ProductSkelton";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../app/features/cartSlice";
+import { addToCart } from "../app/features/cartSlice";
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();

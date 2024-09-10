@@ -5,13 +5,13 @@ import {
 } from "react-router-dom";
 import AppLayout from "../layout/AppLayout";
 import ProductsList from "../components/ProductsList";
-import HomePage from "../components/pages/HomePage";
-import LoginPage from "../components/pages/LoginPage";
-import RegisterPage from "../components/pages/RegisterPage";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 import ErrorHandler from "../errors/ErrorPage";
 import AuthRoute from "../protectedRoutes/AuthRoute";
 import ProtectedLogin from "../protectedRoutes/ProtectedLogin";
-import ProductPage from "../components/pages/ProductDetailsPage";
+import ProductPage from "../pages/ProductDetailsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +25,7 @@ const router = createBrowserRouter(
         />
         <Route
           path="product/:id"
-          element={<AuthRoute element={<ProductPage/>} />}
+          element={<AuthRoute element={<ProductPage />} />}
         />
       </Route>
       <Route
