@@ -12,6 +12,9 @@ import ErrorHandler from "../errors/ErrorPage";
 import AuthRoute from "../protectedRoutes/AuthRoute";
 import ProtectedLogin from "../protectedRoutes/ProtectedLogin";
 import ProductPage from "../pages/ProductDetailsPage";
+import AdminDashBoard from "../pages/dashboard";
+import DashboardLayout from "../pages/dashboard/DashboardLayout";
+import ProductsTable from "../pages/dashboard/ProductsTable";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,13 +23,15 @@ const router = createBrowserRouter(
         <Route index element={<HomePage />} />
         <Route path="products" element={<ProductsList />} />
         <Route
-          path="dashboard"
-          element={<AuthRoute element={<h2>Dashboard</h2>} />}
-        />
-        <Route
           path="product/:id"
           element={<AuthRoute element={<ProductPage />} />}
         />
+        <Route path="*" element={<ErrorHandler />} />
+      </Route>
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<AdminDashBoard />} />
+        <Route path="products" element={<ProductsTable/>} />
+        <Route path="*" element={<ErrorHandler />} />
       </Route>
       <Route
         path="/login"
