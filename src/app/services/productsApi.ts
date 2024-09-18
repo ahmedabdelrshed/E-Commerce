@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import CookieService from '../../services/CookieService'
 
 
 export const productsApi = createApi({
@@ -12,8 +13,17 @@ export const productsApi = createApi({
             query: () => ({
                 url: '/api/products?populate=thumbnail,category&sort=createdAt:DESC',
             }),
+        }),
+        deleteDashBoardProducts: builder.mutation({
+            query: (id) => ({
+                url: `/api/products/${id}`,
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${CookieService.get('jwt')}`
+                }
+            })
         })
     })
 })
 
-export const { useGetDashboardProductsQuery } = productsApi
+export const { useGetDashboardProductsQuery, useDeleteDashBoardProductsMutation } = productsApi

@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <>
-      <CartDrawer/>
+        <CartDrawer />
         <RouterProvider router={router}></RouterProvider>
       </>
     </>
