@@ -3,6 +3,7 @@ export interface IProduct {
     attributes: {
         title: string;
         price: number;
+        stock?: number;
         description: string;
         category?: {
             data: {
@@ -15,6 +16,29 @@ export interface IProduct {
             data: {
                 attributes: {
                     url: string;
+                }
+            }
+        }
+    }
+}
+export interface IProductEdit {
+    id?: number
+    attributes?: {
+        title?: string;
+        price?: number;
+        stock?: number;
+        description?: string;
+        category?: {
+            data: {
+                attributes: {
+                    title: string
+                }
+            }
+        }
+        thumbnail?: {
+            data?: {
+                attributes?: {
+                    url?: string;
                 }
             }
         }
