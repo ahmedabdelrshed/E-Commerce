@@ -10,3 +10,10 @@ export const registerSchema = yup.object({
     username: yup.string().required("Username is required").min(5, 'username must be at least 5 characters'),
     password: yup.string().required("Password is required").min(8, "Password must be at least 8 characters long"),
 })
+
+export const productSchema = yup.object({
+    title: yup.string().required("Product Title is required").min(5, "Product Title must be at least 5 characters"),
+    description: yup.string().required("Product Description is required").min(20, "Product Description must be at least 20 characters"),
+    price: yup.number().required("Product Price is required").min(1, "Product Price must be Greater than zero."),
+    stock: yup.number().required("Product Stock is required").min(1, "Product Stock must be Greater than zero."),
+})

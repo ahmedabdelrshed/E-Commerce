@@ -22,6 +22,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Textarea,
+  Flex,
 } from "@chakra-ui/react";
 import {
   useDeleteDashBoardProductsMutation,
@@ -36,6 +37,7 @@ import AlertDialogComponent from "../../components/AlertDialog";
 import { useEffect, useState } from "react";
 import ModalShared from "../../components/ModalShared";
 import { IProduct, IProductEdit } from "../../interfaces";
+import CreateProduct from "./CreateProduct";
 
 const ProductsTable = () => {
   const { isLoading, data } = useGetDashboardProductsQuery(undefined);
@@ -44,6 +46,11 @@ const ProductsTable = () => {
     isOpen: isOpenEdit,
     onOpen: onOpenEdit,
     onClose: onCloseEdit,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenCreate,
+    onOpen: onOpenCreate,
+    onClose: onCloseCreate,
   } = useDisclosure();
   const toast = useToast();
   const [temProductId, setTemProductId] = useState<number>();
@@ -71,6 +78,7 @@ const ProductsTable = () => {
     if (isUpdatingSuccess) {
       onCloseEdit();
       setProductToEdit(undefined);
+      setThumbnailEdit(undefined);
       toast({
         position: "top",
         title: "Product Updated successfully",
@@ -130,8 +138,6 @@ const ProductsTable = () => {
   };
   const onSubmitEdit = (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log(productToEdit);
-    console.log(thumbnailEdit);
     const formData = new FormData();
     formData.append(
       "data",
@@ -150,100 +156,119 @@ const ProductsTable = () => {
 
   return (
     <>
-      <TableContainer>
-        <Table variant="simple">
-          <TableCaption>Products Table</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Title</Th>
-              <Th>Category</Th>
-              <Th>Image</Th>
-              <Th>Price</Th>
-              <Th>Stoke</Th>
-              <Th>Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data?.data?.map((product: IProduct) => (
-              <Tr key={product?.id}>
-                <Td>{product?.id}</Td>
-                <Td>{product?.attributes?.title}</Td>
-                <Td>{product?.attributes?.category?.data.attributes.title}</Td>
-                <Td>
-                  <Image
-                    borderRadius={"full"}
-                    objectFit={"cover"}
-                    boxSize={"40px"}
-                    src={`${import.meta.env.VITE_SERVER_URL}${
-                      product?.attributes?.thumbnail.data.attributes.url
-                    }`}
-                  ></Image>
-                </Td>
-                <Td>${product.attributes.price}</Td>
-                <Td>{product.attributes.stock}</Td>
-                <Td>
-                  <Tooltip
-                    hasArrow
-                    label="View Product"
-                    bg="purple.500"
-                    rounded={"md"}
-                    color={"white"}
-                  >
-                    <Button
-                      as={LinkRouting}
-                      to={`/product/${product?.id}`}
-                      colorScheme="purple"
-                      variant={"solid"}
-                      mr={3}
-                    >
-                      <AiOutlineEye size={12} />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip
-                    hasArrow
-                    label="Edit Product"
-                    bg="blue.500"
-                    rounded={"md"}
-                    color={"white"}
-                  >
-                    <Button
-                      colorScheme="blue"
-                      variant={"solid"}
-                      mr={3}
-                      onClick={() => {
-                        setProductToEdit(product);
-                        onOpenEdit();
-                      }}
-                    >
-                      <FiEdit2 size={12} />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip
-                    hasArrow
-                    label="Delete Product"
-                    bg="red.500"
-                    rounded={"md"}
-                    color={"white"}
-                  >
-                    <Button
-                      onClick={() => {
-                        setTemProductId(product?.id);
-                        onOpen();
-                      }}
-                      colorScheme="red"
-                      variant={"solid"}
-                      mr={3}
-                    >
-                      <RiDeleteBinFill size={12} />
-                    </Button>
-                  </Tooltip>
-                </Td>
+      <Flex flexDirection={"column"} maxW={"85%"} mx={"auto"}>
+        <Button
+          colorScheme="blue"
+          ml={"auto"}
+          w={"fit-content"}
+          onClick={onOpenCreate}
+        >
+          Create New Product
+        </Button>
+        <TableContainer
+          border={"1px solid #2d3748"}
+          rounded={"lg"}
+          p={3}
+          mt={6}
+        >
+          <Table variant="simple">
+            <TableCaption>Total Entries : {data?.data?.length}</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>ID</Th>
+                <Th>Title</Th>
+                <Th>Category</Th>
+                <Th>Image</Th>
+                <Th>Price</Th>
+                <Th>Stoke</Th>
+                <Th>Action</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+            </Thead>
+            <Tbody>
+              {data?.data?.map((product: IProduct) => (
+                <Tr key={product?.id}>
+                  <Td>{product?.id}</Td>
+                  <Td>{product?.attributes?.title}</Td>
+                  <Td>
+                    {product?.attributes?.category?.data?.attributes?.title
+                      ? product?.attributes?.category?.data.attributes.title
+                      : "SmartPhones"}
+                  </Td>
+                  <Td>
+                    <Image
+                      borderRadius={"full"}
+                      objectFit={"cover"}
+                      boxSize={"40px"}
+                      src={`${import.meta.env.VITE_SERVER_URL}${
+                        product?.attributes?.thumbnail.data.attributes.url
+                      }`}
+                    ></Image>
+                  </Td>
+                  <Td>${product.attributes.price}</Td>
+                  <Td>{product.attributes.stock}</Td>
+                  <Td>
+                    <Tooltip
+                      hasArrow
+                      label="View Product"
+                      bg="purple.500"
+                      rounded={"md"}
+                      color={"white"}
+                    >
+                      <Button
+                        as={LinkRouting}
+                        to={`/product/${product?.id}`}
+                        colorScheme="purple"
+                        variant={"solid"}
+                        mr={3}
+                      >
+                        <AiOutlineEye size={12} />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      hasArrow
+                      label="Edit Product"
+                      bg="blue.500"
+                      rounded={"md"}
+                      color={"white"}
+                    >
+                      <Button
+                        colorScheme="blue"
+                        variant={"solid"}
+                        mr={3}
+                        onClick={() => {
+                          setProductToEdit(product);
+                          onOpenEdit();
+                        }}
+                      >
+                        <FiEdit2 size={12} />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      hasArrow
+                      label="Delete Product"
+                      bg="red.500"
+                      rounded={"md"}
+                      color={"white"}
+                    >
+                      <Button
+                        onClick={() => {
+                          setTemProductId(product?.id);
+                          onOpen();
+                        }}
+                        colorScheme="red"
+                        variant={"solid"}
+                        mr={3}
+                      >
+                        <RiDeleteBinFill size={12} />
+                      </Button>
+                    </Tooltip>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Flex>
       <AlertDialogComponent
         isOpen={isOpen}
         onClose={onClose}
@@ -313,6 +338,7 @@ const ProductsTable = () => {
           <Input type="file" h={"full"} p={2} onChange={onChangeThumbnail} />
         </FormControl>
       </ModalShared>
+      <CreateProduct isOpen={isOpenCreate} onClose={onCloseCreate} />
     </>
   );
 };

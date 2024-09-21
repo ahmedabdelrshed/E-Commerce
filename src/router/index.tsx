@@ -28,9 +28,12 @@ const router = createBrowserRouter(
         />
         <Route path="*" element={<ErrorHandler />} />
       </Route>
-      <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route
+        path="/dashboard"
+        element={<AuthRoute element={<DashboardLayout />} />}
+      >
         <Route index element={<AdminDashBoard />} />
-        <Route path="products" element={<ProductsTable/>} />
+        <Route path="products" element={<ProductsTable />} />
         <Route path="*" element={<ErrorHandler />} />
       </Route>
       <Route
