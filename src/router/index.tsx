@@ -15,6 +15,7 @@ import ProductPage from "../pages/ProductDetailsPage";
 import AdminDashBoard from "../pages/dashboard";
 import DashboardLayout from "../pages/dashboard/DashboardLayout";
 import ProductsTable from "../pages/dashboard/ProductsTable";
+import CategoriesTable from "../pages/dashboard/CategoriesTable";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,14 +27,15 @@ const router = createBrowserRouter(
           path="product/:id"
           element={<AuthRoute element={<ProductPage />} />}
         />
-        <Route path="*" element={<ErrorHandler />} />
       </Route>
       <Route
         path="/dashboard"
         element={<AuthRoute element={<DashboardLayout />} />}
+        errorElement={<ErrorHandler />}
       >
         <Route index element={<AdminDashBoard />} />
         <Route path="products" element={<ProductsTable />} />
+        <Route path="categories" element={<CategoriesTable />} />
         <Route path="*" element={<ErrorHandler />} />
       </Route>
       <Route
@@ -44,6 +46,7 @@ const router = createBrowserRouter(
         path="/register"
         element={<ProtectedLogin element={<RegisterPage />} />}
       />
+      <Route path="*" element={<ErrorHandler />} />
     </>
   )
 );

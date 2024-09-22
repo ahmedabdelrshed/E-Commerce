@@ -44,7 +44,13 @@ export interface IProductEdit {
         }
     }
 }
-
+export interface ICategory {
+    id: number;
+    attributes: {
+        title: string;
+        description: string;
+    };
+}
 export interface LoginData {
     identifier: string;
     password: string;
@@ -59,5 +65,9 @@ export interface ICreateProduct {
     title: string;
     price: number;
     stock: number;
+    description: string;
+}
+export interface ICreateCategory {
+    title: string;
     description: string;
 }

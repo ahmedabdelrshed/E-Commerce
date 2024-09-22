@@ -6,6 +6,7 @@ import globalSlice from './features/globalSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { productsApi } from './services/productsApi'
+import { categoriesApi } from './services/categoriesApi'
 
 const persistCartConfig = {
     key: 'cart',
@@ -20,11 +21,12 @@ export const store = configureStore({
         cart: persistCart,
         global: globalSlice,
         [productsApi.reducerPath]: productsApi.reducer,
+        [categoriesApi.reducerPath]: categoriesApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }).concat(productsApi.middleware),
+        }).concat(productsApi.middleware).concat(categoriesApi.middleware),
 })
 export const persister = persistStore(store)
 

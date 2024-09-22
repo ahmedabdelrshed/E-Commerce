@@ -17,3 +17,7 @@ export const productSchema = yup.object({
     price: yup.number().required("Product Price is required").min(1, "Product Price must be Greater than zero."),
     stock: yup.number().required("Product Stock is required").min(1, "Product Stock must be Greater than zero."),
 })
+export const categorySchema = yup.object({
+    title: yup.string().required("Category Title is required").min(5, "Category Title must be at least 5 characters"),
+    description: yup.string().required("Category Description is required").min(20, "Category Description must be at least 20 characters"),
+})
