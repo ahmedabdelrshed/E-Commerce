@@ -21,19 +21,29 @@ import {
   useDeleteDashBoardCategoriesMutation,
   useGetCategoriesQuery,
 } from "../../app/services/categoriesApi";
-import { ICategory } from "../../interfaces";
+import { ICategory, ICreateCategory } from "../../interfaces";
 import CreateCategory from "./createCategory";
 import AlertDialogComponent from "../../components/AlertDialog";
 import { useEffect, useState } from "react";
+import UpdateCategory from "./UpdateCategory";
 
 const CategoriesTable = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
   const {
     isOpen: isOpenDeleting,
     onOpen: onOpenDeleting,
     onClose: onCloseDeleting,
   } = useDisclosure();
-  const [tempCategoryId, setTempCategoryId] = useState<number>();
+  const [tempCategoryId, setTempCategoryId] = useState<number>(0);
+  const [categoryToEdit, setCategoryToEdit] = useState<ICreateCategory>({
+    title: "",
+    description: "",
+  });
   const [deleteCategory, { isLoading: isDeleting, isSuccess }] =
     useDeleteDashBoardCategoriesMutation();
   const { isLoading, data } = useGetCategoriesQuery(undefined);
@@ -107,7 +117,11 @@ const CategoriesTable = () => {
                         colorScheme="blue"
                         variant={"solid"}
                         mr={3}
-                        onClick={() => {}}
+                        onClick={() => {
+                          setCategoryToEdit(category?.attributes);
+                          setTempCategoryId(category?.id);
+                          onOpenEdit();
+                        }}
                       >
                         <FiEdit2 size={12} />
                       </Button>
@@ -158,6 +172,12 @@ const CategoriesTable = () => {
         isOpen={isOpenDeleting}
         onClose={onCloseDeleting}
         isLoading={isDeleting}
+      />
+      <UpdateCategory
+        isOpen={isOpenEdit}
+        onClose={onCloseEdit}
+        id={tempCategoryId}
+        category={categoryToEdit}
       />
     </>
   );

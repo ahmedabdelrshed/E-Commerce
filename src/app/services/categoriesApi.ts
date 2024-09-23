@@ -44,6 +44,29 @@ export const categoriesApi = createApi({
             },
             invalidatesTags: [{ type: 'categories', id: 'LISTCaT' }]
         }),
+        updateDashBoardCategories: builder.mutation({
+            query: ({ id, body }) => ({
+                url: `/api/categories/${id}`,
+                method: "PUT",
+                headers: {
+                    'Authorization': `Bearer ${CookieService.get('jwt')}`
+                },
+                body
+            }),
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    const { data: newCategory } = await queryFulfilled;
+                    dispatch(
+                        categoriesApi.util.updateQueryData('getCategories', undefined, (draft) => {
+                            draft.data.push(newCategory);
+                        })
+                    );
+                } catch (error) {
+                    console.error('Error updating categories:', error);
+                }
+            },
+            invalidatesTags: [{ type: 'categories', id: 'LISTCaT' }]
+        }),
         deleteDashBoardCategories: builder.mutation({
             query: (id) => ({
                 url: `/api/categories/${id}`,
@@ -54,7 +77,8 @@ export const categoriesApi = createApi({
             }),
             invalidatesTags: [{ type: 'categories', id: 'LISTCaT' }]
         }),
+
     })
 })
 
-export const { useGetCategoriesQuery, useCreateDashBoardCategoriesMutation,useDeleteDashBoardCategoriesMutation } = categoriesApi
+export const { useGetCategoriesQuery, useCreateDashBoardCategoriesMutation, useDeleteDashBoardCategoriesMutation, useUpdateDashBoardCategoriesMutation } = categoriesApi
