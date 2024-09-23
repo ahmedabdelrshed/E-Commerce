@@ -43,8 +43,18 @@ export const categoriesApi = createApi({
                 }
             },
             invalidatesTags: [{ type: 'categories', id: 'LISTCaT' }]
-        })
+        }),
+        deleteDashBoardCategories: builder.mutation({
+            query: (id) => ({
+                url: `/api/categories/${id}`,
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${CookieService.get('jwt')}`
+                }
+            }),
+            invalidatesTags: [{ type: 'categories', id: 'LISTCaT' }]
+        }),
     })
 })
 
-export const { useGetCategoriesQuery, useCreateDashBoardCategoriesMutation } = categoriesApi
+export const { useGetCategoriesQuery, useCreateDashBoardCategoriesMutation,useDeleteDashBoardCategoriesMutation } = categoriesApi
